@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: invoiceai
+      POSTGRES_USER: invoiceai
+      POSTGRES_PASSWORD: change-me-local-only
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U invoiceai -d invoiceai"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+psycopg://invoiceai:change-me-local-only@db:5432/invoiceai
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      GROQ_MODEL: ${GROQ_MODEL:-openai/gpt-oss-120b}
+      QUICKBOOKS_ENV: ${QUICKBOOKS_ENV:-sandbox}
+      QUICKBOOKS_CLIENT_ID: ${QUICKBOOKS_CLIENT_ID:-}
+      QUICKBOOKS_CLIENT_SECRET: ${QUICKBOOKS_CLIENT_SECRET:-}
+      QUICKBOOKS_REALM_ID: ${QUICKBOOKS_REALM_ID:-}
+      QUICKBOOKS_ACCESS_TOKEN: ${QUICKBOOKS_ACCESS_TOKEN:-}
+      QUICKBOOKS_REFRESH_TOKEN: ${QUICKBOOKS_REFRESH_TOKEN:-}
+      QUICKBOOKS_REDIRECT_URI: ${QUICKBOOKS_REDIRECT_URI:-http://localhost:8000/integrations/quickbooks/callback}
+    depends_on:
+      db:
+        condition: service_healthy
+volumes:
+  pgdata:

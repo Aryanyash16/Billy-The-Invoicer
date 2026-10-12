@@ -1,0 +1,30 @@
+.env
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.py[cod]
+*.db
+uploads/
+private_data/
+data/raw/
+data/processed/
+data/eval/*predictions*
+data/eval/*ground_truth*
+# Environment and secrets
+.env.*
+!.env.example
+
+# Python environments and test artifacts
+venv/
+.coverage
+htmlcov/
+
+# Frontend
+node_modules/
+.next/
+out/
+
+# Local editor and OS files
+.DS_Store
+.vscode/

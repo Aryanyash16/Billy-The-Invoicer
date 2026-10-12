@@ -1,0 +1,4 @@
+{"id":"sample-1","score":0.99,"valid":true,"prediction_correct":true}
+{"id":"sample-2","score":0.96,"valid":true,"prediction_correct":false}
+{"id":"sample-3","score":0.89,"valid":true,"prediction_correct":true}
+{"id":"sample-4","score":0.98,"valid":false,"prediction_correct":false}
